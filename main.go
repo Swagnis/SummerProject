@@ -23,8 +23,7 @@ func pComputer(p Computer) {
 }
 
 func main() {
-	startArg := flag.Bool("start", false, "a boolean")   // Запуск
-	stopArg := flag.Bool("stop", false, "a boolean")     // Остановка
+	helpArg := flag.Bool("help", false, "a boolean")     // Справочник
 	newArg := flag.Bool("new", false, "a boolean")       // Подключение к компьютеру
 	ipArg := flag.String("ip", "0.0.0.0", "a string")    // Задает Ip
 	loginArg := flag.String("login", "root", "a string") // Логин для подключения
@@ -33,12 +32,14 @@ func main() {
 
 	flag.Parse()
 
-	if *startArg == true {
-		startProgram()
-	}
-
-	if *stopArg == true {
-		stopProgram()
+	if *helpArg == true {
+		fmt.Printf("\n----------------------------------------------------------------------------------------------")
+		fmt.Printf("\n")
+		fmt.Printf("\n")
+		fmt.Printf("\nДля подключения к компьютеру ввести данные по примеру: -new -login 'Логин пользователя' -pass 'Пароль пользователя' -ip 'ip компьютера' -port 'Порт соединения. По умолчание - 22' ")
+		fmt.Printf("\n")
+		fmt.Printf("\n")
+		fmt.Printf("\n----------------------------------------------------------------------------------------------")
 	}
 
 	if *newArg != false {
@@ -47,14 +48,6 @@ func main() {
 		copyFile(*loginArg, *passArg, *ipArg, *portArg)
 	}
 
-}
-
-func startProgram() {
-	fmt.Println("Программа запущена")
-}
-
-func stopProgram() {
-	fmt.Println("Программа остановлена")
 }
 
 // Создание ssh-клинета и sftp соединения
@@ -77,7 +70,7 @@ func sshCli(loginArg string, passArg string, ipArg string, portArg int) *ssh.Cli
 	addr := fmt.Sprintf("%s:%d", ipArg, portArg)
 	client, err := ssh.Dial("tcp", addr, config)
 	if err != nil {
-		fmt.Printf("Failed to dial: %s", err)
+		fmt.Printf("Error: %s", err)
 	}
 	fmt.Println("Successfully connected to ", ipArg, ":", portArg)
 
@@ -87,7 +80,7 @@ func sshCli(loginArg string, passArg string, ipArg string, portArg int) *ssh.Cli
 func sftpConnect(client *ssh.Client) {
 	sftp, err := sftp.NewClient(client)
 	if err != nil {
-		fmt.Printf("Failed to create new sftp-client: %s", err)
+		fmt.Printf("Error: %s", err)
 	}
 	defer sftp.Close()
 
@@ -95,7 +88,6 @@ func sftpConnect(client *ssh.Client) {
 	dstPath := "C:/Go/Projects/New folder/Copied/"
 	config := "config.xml"
 
-	// Open the source file
 	srcFile2, err := sftp.Open(srcPath + config)
 	if err != nil {
 		fmt.Printf("Error: %s", err)
@@ -110,7 +102,6 @@ func sftpConnect(client *ssh.Client) {
 	}
 	defer dstFile2.Close()
 
-	// Copy the file
 	srcFile2.WriteTo(dstFile2)
 }
 
