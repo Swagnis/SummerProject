@@ -43,8 +43,8 @@ func main() {
 	conectedArg := flag.Bool("conected", false, "a boolean")      // Выводит список подключенных компьютеров
 	hashtorageArg := flag.Bool("hashstorage", false, "a boolean") // Выводит hashstorage по имени компьютера
 	exportArg := flag.Bool("export", false, "a boolean")          // Экспортирует конфиг в папку на компьютере
-	timeArg := flag.String("time", "20:24", "a string")           // Писать вместе с get для задания времени для экспорта
-	dateArg := flag.String("date", "18.07.2017", "a str")         // Писать вместе с get для задания даты для экспорта
+	timeArg := flag.String("time", "20:24", "a string")           // Писать вместе с export для задания времени для экспорта
+	dateArg := flag.String("date", "18.07.2017", "a str")         // Писать вместе с export для задания даты для экспорта
 	flag.Args()
 	flag.Parse()
 
