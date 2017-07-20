@@ -1,0 +1,193 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
+
+-- Started on 2017-07-20 23:10:10
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12387)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2142 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 188 (class 1259 OID 16417)
+-- Name: computers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE computers (
+    id integer NOT NULL,
+    ip character varying(255) NOT NULL,
+    login character varying(255) NOT NULL,
+    pass character varying(255),
+    port character varying(255) NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE computers OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 16415)
+-- Name: computers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE computers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE computers_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2143 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: computers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE computers_id_seq OWNED BY computers.id;
+
+
+--
+-- TOC entry 190 (class 1259 OID 16426)
+-- Name: configs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE configs (
+    id integer NOT NULL,
+    date character varying(255) NOT NULL,
+    "time" character varying(255) NOT NULL,
+    name character varying(100),
+    conf bytea
+);
+
+
+ALTER TABLE configs OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 16424)
+-- Name: configs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE configs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE configs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2144 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: configs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE configs_id_seq OWNED BY configs.id;
+
+
+--
+-- TOC entry 186 (class 1259 OID 16408)
+-- Name: hashstorage; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE hashstorage (
+    id integer NOT NULL,
+    date character varying(255) NOT NULL,
+    "time" character varying(100) NOT NULL,
+    md5config character varying(255) NOT NULL,
+    sha1config character varying(255) NOT NULL,
+    name character varying(100)
+);
+
+
+ALTER TABLE hashstorage OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 16406)
+-- Name: hashstorage_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE hashstorage_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE hashstorage_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2145 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: hashstorage_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE hashstorage_id_seq OWNED BY hashstorage.id;
+
+
+--
+-- TOC entry 2017 (class 2604 OID 16420)
+-- Name: computers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY computers ALTER COLUMN id SET DEFAULT nextval('computers_id_seq'::regclass);
+
+
+--
+-- TOC entry 2018 (class 2604 OID 16429)
+-- Name: configs id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY configs ALTER COLUMN id SET DEFAULT nextval('configs_id_seq'::regclass);
+
+
+--
+-- TOC entry 2016 (class 2604 OID 16411)
+-- Name: hashstorage id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY hashstorage ALTER COLUMN id SET DEFAULT nextval('hashstorage_id_seq'::regclass);
+
+
+-- Completed on 2017-07-20 23:10:10
+
+--
+-- PostgreSQL database dump complete
+--
+
