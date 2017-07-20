@@ -30,21 +30,7 @@ type Computer struct {
 }
 
 func main() {
-	helpArg := flag.Bool("help", false, "a boolean")              // Отображает доступные команды
-	pathArg := flag.String("path", "./", "a string")              // Указывает путь на data.json
-	newArg := flag.Bool("new", false, "a boolean")                // Создает новое подключение к компьютеру
-	nameArg := flag.String("name", "Unknown", "a string")         // Для задания псеводнима компьютера
-	loginArg := flag.String("login", "admin", "a string")         // Для задания логина для подключения к роутеру
-	passArg := flag.String("pass", "", "a string")                // Для задания пароля для подключения к роутеру
-	ipArg := flag.String("ip", "0.0.0.0", "a string")             // Для задания ip компьютера
-	portArg := flag.Int("port", 22, "an int")                     // Для задания порта SSH соединения
-	doArg := flag.Bool("do", false, "a boolean")                  // Запись одного или всех конфигов
-	allArg := flag.Bool("all", false, "a boolean")                // Писать вместе с do, если необходимо записать конфиги со всех компьютеров
-	conectedArg := flag.Bool("conected", false, "a boolean")      // Выводит список подключенных компьютеров
-	hashtorageArg := flag.Bool("hashstorage", false, "a boolean") // Выводит hashstorage по имени компьютера
-	exportArg := flag.Bool("export", false, "a boolean")          // Экспортирует конфиг в папку на компьютере
-	timeArg := flag.String("time", "20:24", "a string")           // Писать вместе с export для задания времени для экспорта
-	dateArg := flag.String("date", "18.07.2017", "a str")         // Писать вместе с export для задания даты для экспорта
+
 	flag.Args()
 	flag.Parse()
 
