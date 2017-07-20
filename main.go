@@ -54,7 +54,7 @@ func main() {
 
 	if *helpArg == true {
 		fmt.Printf("\n------------------------------------------------------------------------")
-		fmt.Printf("\nДля создания подключения к компьютеру ввести данные по примеру: -new -name (Псевдоним  компьютера) -login (Логин пользователя) -pass (Пароль пользователя) -ip (ip компьютера) -port (Порт соединения. По умолчание - 22")
+		fmt.Printf("\nДля создания подключения к компьютеру ввести данные по примеру: -new -name (Псевдоним  компьютера) -login (Логин пользователя) -pass (Пароль пользователя) -ip (ip компьютера) -port (Порт соединения. По умолчанию - 22")
 		fmt.Printf("\n")
 		fmt.Printf("\nДля получения конфига с одного компьютера ввести данные по примеру: -do (Псевдоним компьютера)")
 		fmt.Printf("\n")
@@ -63,6 +63,8 @@ func main() {
 		fmt.Printf("\nДля того, чтобы узнать какие омпьютеры подключены ввести даные по примеру: -conected")
 		fmt.Printf("\n")
 		fmt.Printf("\nДля того, чтобы вывести хранилище с хэшами ввести данные по примеру: -hashstorage -name (Псевдоним компьютера)")
+		fmt.Printf("\n")
+		fmt.Printf("\nЧтобы указать путь к файлу data.json ввести данные по примеру: -path (Disk:/~/) ")
 		fmt.Printf("\n")
 		fmt.Printf("\nДля того, чтобы экспортировать файл из таблицы конфигов ввести данные по примеру: -export -name (Псевдоним компьютера) -date (Дата занесения в таблицу) -time (Время занесения в таблицу)")
 		fmt.Printf("\n")
@@ -197,7 +199,7 @@ func addNewComputer(r Computer, settings string) {
 	db, err := sql.Open("postgres", settings)
 
 	var lastInsertID int
-	err = db.QueryRow("INSERT INTO computerstest(ip, login, pass, port, name) VALUES($1,$2,$3,$4,$5) returning id;", r.ip, r.login, r.pass, r.port, r.name).Scan(&lastInsertID)
+	err = db.QueryRow("INSERT INTO computers(ip, login, pass, port, name) VALUES($1,$2,$3,$4,$5) returning id;", r.ip, r.login, r.pass, r.port, r.name).Scan(&lastInsertID)
 	if err != nil {
 		fmt.Println("5")
 	}
@@ -219,7 +221,7 @@ func addNewHash(md5 string, sha1 string, name string, params [2]string) {
 	defer db.Close()
 
 	var lastInsertID int
-	err = db.QueryRow("INSERT INTO hashstoragetest(date, time, md5config, sha1config, name) VALUES($1,$2,$3,$4,$5) returning id;", date, time, md5, sha1, name).Scan(&lastInsertID)
+	err = db.QueryRow("INSERT INTO hashstorage(date, time, md5config, sha1config, name) VALUES($1,$2,$3,$4,$5) returning id;", date, time, md5, sha1, name).Scan(&lastInsertID)
 	if err != nil {
 		fmt.Println("5,5")
 	}
@@ -248,7 +250,7 @@ func addNewFile(params [2]string, r Computer) {
 	bytes := make([]byte, fileSize)
 
 	var lastInsertID int
-	err = db.QueryRow("INSERT INTO configstest(date, time, name, conf) VALUES($1,$2,$3,$4) returning id;", date, time, r.name, bytes).Scan(&lastInsertID)
+	err = db.QueryRow("INSERT INTO configs(date, time, name, conf) VALUES($1,$2,$3,$4) returning id;", date, time, r.name, bytes).Scan(&lastInsertID)
 	if err != nil {
 		fmt.Println("8")
 	}
@@ -257,7 +259,7 @@ func addNewFile(params [2]string, r Computer) {
 
 // printAllConnected
 func printAllConnected(db *sql.DB) {
-	rows, err := db.Query("SELECT * FROM computerstest")
+	rows, err := db.Query("SELECT * FROM computers")
 	if err != nil {
 		fmt.Println("9")
 	}
@@ -283,7 +285,7 @@ func printAllConnected(db *sql.DB) {
 // ComputerData
 func ComputerData(db *sql.DB, params [2]string) {
 	var r Computer
-	rows, err := db.Query("SELECT * FROM computerstest")
+	rows, err := db.Query("SELECT * FROM computers")
 	if err != nil {
 		fmt.Println("11")
 	}
@@ -362,7 +364,7 @@ func hashSHA1config(path string) string {
 // ComputerDataNm
 func ComputerDataNm(db *sql.DB, params [2]string, names []string) {
 	var r Computer
-	rows, err := db.Query("SELECT * FROM computerstest")
+	rows, err := db.Query("SELECT * FROM computers")
 	if err != nil {
 		fmt.Println("13")
 	}
@@ -405,7 +407,7 @@ func hashStorage(name string, params [2]string) {
 		fmt.Println("15")
 	}
 
-	cmd := "SELECT * FROM hashstoragetest WHERE name LIKE '" + name + "'"
+	cmd := "SELECT * FROM hashstorage WHERE name LIKE '" + name + "'"
 	rows, err := db.Query(cmd)
 	if err != nil {
 		fmt.Println("16")
@@ -442,7 +444,7 @@ func doConfig(params [2]string, ip string, port int, login string, pass string, 
 // export
 func export(_name string, _date string, _time string, params [2]string) {
 
-	cmd := "SELECT * FROM configstest WHERE name LIKE '" + _name + "'"
+	cmd := "SELECT * FROM configs WHERE name LIKE '" + _name + "'"
 	db := connectDB(params[0])
 	rows, err := db.Query(cmd)
 	if err != nil {
