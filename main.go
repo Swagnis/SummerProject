@@ -34,8 +34,8 @@ func main() {
 	pathArg := flag.String("path", "./", "a string")              // Указывает путь на data.json
 	newArg := flag.Bool("new", false, "a boolean")                // Создает новое подключение к компьютеру
 	nameArg := flag.String("name", "Unknown", "a string")         // Для задания псеводнима компьютера
-	loginArg := flag.String("login", "admin", "a string")         // Для задания логина для подключения к роутеру
-	passArg := flag.String("pass", "", "a string")                // Для задания пароля для подключения к роутеру
+	loginArg := flag.String("login", "admin", "a string")         // Для задания логина для подключения к компьютеру
+	passArg := flag.String("pass", "", "a string")                // Для задания пароля для подключения к комьютеру
 	ipArg := flag.String("ip", "0.0.0.0", "a string")             // Для задания ip компьютера
 	portArg := flag.Int("port", 22, "an int")                     // Для задания порта SSH соединения
 	doArg := flag.Bool("do", false, "a boolean")                  // Запись одного или всех конфигов
