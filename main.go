@@ -31,7 +31,7 @@ type Computer struct {
 
 func main() {
 	helpArg := flag.Bool("help", false, "a boolean")              // Отображает доступные команды
-	pathArg := flag.String("path", "./", "a string")              // Указывает путь на data.json
+	pathArg := flag.String("path", "./", "a string")              // Указывает путь на data.txt
 	newArg := flag.Bool("new", false, "a boolean")                // Создает новое подключение к компьютеру
 	nameArg := flag.String("name", "Unknown", "a string")         // Для задания псеводнима компьютера
 	loginArg := flag.String("login", "admin", "a string")         // Для задания логина для подключения к компьютеру
@@ -64,7 +64,7 @@ func main() {
 		fmt.Printf("\n")
 		fmt.Printf("\nДля того, чтобы вывести хранилище с хэшами ввести данные по примеру: -hashstorage -name (Псевдоним компьютера)")
 		fmt.Printf("\n")
-		fmt.Printf("\nЧтобы указать путь к файлу data.json ввести данные по примеру: -path (Disk:/~/) ")
+		fmt.Printf("\nЧтобы указать путь к файлу data.txt ввести данные по примеру: -path (Disk:/~/) ")
 		fmt.Printf("\n")
 		fmt.Printf("\nДля того, чтобы экспортировать файл из таблицы конфигов ввести данные по примеру: -export -name (Псевдоним компьютера) -date (Дата занесения в таблицу) -time (Время занесения в таблицу)")
 		fmt.Printf("\n")
@@ -167,7 +167,7 @@ func sftpComputer(client *ssh.Client, path string) {
 }
 
 func getData(path string) [2]string {
-	data := "data.json"
+	data := "data.txt"
 
 	var str [2]string
 	file, err := os.Open(path + data)
@@ -481,7 +481,7 @@ func export(_name string, _date string, _time string, params [2]string) {
 func convertToFile(bytes []byte) {
 	permissions := os.FileMode(0644)
 	bytes = []byte("to be written to a file\n")
-	cfgerr := ioutil.WriteFile("C:/Go/Projects/Newfolder/Pasted/config.xml", bytes, permissions)
+	cfgerr := ioutil.WriteFile(".Pasted/config.xml", bytes, permissions)
 	if cfgerr != nil {
 		fmt.Println("23")
 	}
